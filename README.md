@@ -9,7 +9,7 @@ If you want to share the output of the script online, it is probably most conven
 Console
 
     git clone git://github.com/mesaboogie/realtimeconfigquickscan_studioware.git
-    cd realtimeconfigquickscan_studioware_studioware
+    cd realtimeconfigquickscan_studioware
     perl ./realTimeConfigQuickScan_studioware.pl
 
 GUI
@@ -18,7 +18,7 @@ GUI
 An experimental GUI is now available. To try it:
 
     git clone git://github.com/mesabooie/realtimeconfigquickscan_studioware.git
-    cd realtimeconfigquickscan
+    cd realtimeconfigquickscan_studioware
     perl ./QuickScan.pl
 
 .. and hit 'Start'
