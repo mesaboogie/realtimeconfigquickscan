@@ -30,7 +30,7 @@ sub new
 sub execute
 {
 	my $self = shift;
-	my $device = '/dev/rtc';
+	my $device = '/dev/rtc0';
 
 	if ( -e $device )
 	{

@@ -17,6 +17,15 @@
 #    along with realtimeconfigquickscan.  
 #    If not, see <http://www.gnu.org/licenses/>.
 
+#
+# Modified by Donald Tanner for Studioware with permission of Arnout Engelen
+# email:mesa@studioware.org
+#
+# Studioware DEVS - Please read:
+#
+# We will need to put the verbage concerning the GNU GPL
+# here before re-distibuting of course. This is a work in progress.
+
 use strict;
 use QuickScanEngine;;
 
@@ -49,7 +58,7 @@ foreach my $fsref (@filesystems)
 		print "** Warning: do not use $fs{mountpoint} for audio files.\n";
 		print "   $fs{type} is not a good filesystem type for realtime use and large files.\n";
 	}
-	if (($fs{type} eq "tmpfs") && ($fs{mountpoint} eq "/tmp"))
+	if (($fs{type} eq "tmpfs") && ($fs{mountpoint} eq "/dev/shm"))
 	{
 		$tmpfs = 1;
 	}
@@ -66,16 +75,19 @@ else
 
 if ($tmpfs)
 {
-	print "ok.\n";
+	print "Checking if tmpfs is mounted on /dev/shm... yes - good\n";
 }
 else
 {
 	print "not found.\n";
-	print "** Warning: no tmpfs partition mounted on /tmp\n";
-	# TODO tip about 'sudo mount -t tmpfs none /tmp' or editing fstab.
-	print "   For more information, see:\n";
-	print "   - http://wiki.linuxaudio.org/wiki/system_configuration#tmpfs\n";
-	print "   - http://lowlatency.linuxaudio.org\n";
+	print "** Warning: no tmpfs partition mounted on /dev/shm\n";
+	print "** tmpfs is mounted in Slackware by default on /dev/shm\n";
+	print "** Check /etc/fstab for the following entry:\n";
+	print "tmpfs            /dev/shm         tmpfs       defaults         0   0\n";
+	print "** NOTE: Both Jack1 and Jack2 now use /dev/shm/ so mounting /tmp/ to tmpfs is not necessary anymore.\n";  
+#	print "   For more information, see:\n";
+#	print "   - http://wiki.linuxaudio.org/wiki/system_configuration#tmpfs\n";
+#	print "   - http://lowlatency.linuxaudio.org\n";
 }
 
 if (!defined $ENV{SOUND_CARD_IRQ})
@@ -122,6 +134,7 @@ else
 # TODO Hardware memory: CAS-latency of '2' is advised - is this really that relevant?
 
 # TODO check for iostat
+# Studioware change: This is commented out in the original script.
 #print "Checking for paging... ";
 #if (not (-e `which iostat` ))
 #{
@@ -138,19 +151,19 @@ else
 ## Misc
 
 # security/limits.conf
-#print "Checking the ability to prioritize processes with (re)nice... ";
-#my $niceout = `nice -n -5 nice`;
-#chomp($niceout);
-#if ($niceout eq "-5")
-#{
-#	print "yes - good.\n";
-#}
-#else
-#{
-#	print "no.\n";
-#	print "** Could not assign a -5 nice value. Set up limits.conf.\n";
-#	print "   For more information, see http://wiki.linuxaudio.org/wiki/system_configuration#limitsconfaudioconf\n";
-#}
+print "Checking the ability to prioritize processes with (re)nice... ";
+my $niceout = `nice -n -5 nice`;
+chomp($niceout);
+if ($niceout eq "-5")
+{
+	print "yes - good.\n";
+}
+else
+{
+	print "no.\n";
+	print "** Could not assign a -5 nice value. Set up limits.conf.\n";
+	print "   For more information, see http://wiki.linuxaudio.org/wiki/system_configuration#limitsconfaudioconf\n";
+}
 # TODO other limits.conf settings: 
 
 
