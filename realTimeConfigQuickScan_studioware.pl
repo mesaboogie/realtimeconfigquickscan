@@ -135,7 +135,7 @@ else
 
 # TODO check for iostat
 # Studioware change: This is commented out in the original script.
-print "Checking for paging... ";
+#print "Checking for paging... ";
 if (not (-e `which iostat` ))
 #if (-e `which iostat` )
 {
