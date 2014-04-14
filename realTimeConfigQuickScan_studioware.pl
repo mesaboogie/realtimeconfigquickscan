@@ -137,7 +137,6 @@ else
 # Studioware change: This is commented out in the original script.
 #print "Checking for paging... ";
 if (not (-e `which iostat` ))
-#if (-e `which iostat` )
 {
 	print " can't find iostat.\n";
 	print "** Warning: install iostat (often in the sysstat package) to check for paging\n";
