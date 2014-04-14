@@ -135,12 +135,13 @@ else
 
 # TODO check for iostat
 # Studioware change: This is commented out in the original script.
-#print "Checking for paging... ";
-#if (not (-e `which iostat` ))
-#{
-#	print " can't find iostat.\n";
-#	print "** Warning: install iostat (often in the sysstat package) to check for paging\n";
-#}
+print "Checking for paging... ";
+if (not (-e `which iostat` ))
+#if (-e `which iostat` )
+{
+	print " can't find iostat.\n";
+	print "** Warning: install iostat (often in the sysstat package) to check for paging\n";
+}
 
 # TODO Check out latency TOP
 
@@ -172,13 +173,13 @@ else
 # TODO
 # print "Checking for jack configuration... ";
 
-#if ( File.exists("~/.jackdrc") )
-#{
-#	my $jackconf=`line < ~/.jackdrc`;
-#	print "found ~/.jackdrc: $jackconf"
-#} else {
-#	print 'not found.'
-#}
+if ( File.exists("~/.jackdrc") )
+{
+	my $jackconf=`line < ~/.jackdrc`;
+	print "found ~/.jackdrc: $jackconf"
+} else {
+	print 'not found.'
+}
 
 # security/limits.conf
 
